@@ -16,7 +16,7 @@ export class UserService {
             return await newUser.save();
     }
 
-    async getAllUsers(skip:number, limit:number){
-        return await UserModel.find().skip(skip).limit(limit).select("-password");
+    async getAllUsers(skip:number = 1, limit:number = 5){
+        return await UserModel.find({}, {"_id":0, "password":0}).skip(skip).limit(limit).lean();
     }
 }

@@ -13,9 +13,24 @@ interface IUser {
     userId: string;
     createdAt: Date
 }
+const token = process.env.NEXT_PUBLIC_API_TOKEN;
+const url = "http://localhost:3001"
 
 export default function Users() {
     const [loading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+      const getUsers = async () => {
+        console.log('calling');
+        try {
+          const req = await fetch(`${url}/api/users/getUsers`, {method: 'GET', headers: { Authorization:  `Bearer ${token}`}});
+          console.log(req);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getUsers();
+    },[])
 
 
   return (

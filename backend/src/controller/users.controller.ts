@@ -1,4 +1,4 @@
-import { JsonController, Get, Post, Body, HttpCode, Param, NotFoundError } from 'routing-controllers';
+import { JsonController, Get, Post, Body, HttpCode, Param, NotFoundError, Authorized } from 'routing-controllers';
 import { UserService } from '../services/user.service';
 import { IUser } from '../models/user.model';
 
@@ -11,6 +11,13 @@ export default class UserController {
     async createUser(@Body() body: IUser){
         const user = await userService.createUser(body);
         return { data: user.userId, message: 'User created'}
+    }
+    @HttpCode(200)
+    @Authorized(['global', 'manager'])
+    @Get("/getUsers")
+    async getUsers() {
+        const data = await userService.getAllUsers();
+        return { data}
     }
 
     
